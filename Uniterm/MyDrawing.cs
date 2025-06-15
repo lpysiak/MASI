@@ -1,16 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace Uniterm
 {
@@ -36,7 +27,7 @@ namespace Uniterm
 
         public static string sA, sB, sOp;
 
-        public static string eA, eB, eC;
+        public static string pA, pB, pC;
 
         public static char oper = ' ';
 
@@ -59,19 +50,38 @@ namespace Uniterm
 
         public void Redraw()
         {
-            if (oper != ' ')          
+            if (oper != ' ')
             {
                 DrawSwitched(new Point(20, fontsize + 30));
             }
             else
             {
-                if (sA != "")
+                int baseX = 30;
+                int seqY = fontsize + 30;
+                int elimY = fontsize * 3 + 30;
+                int offsetX = baseX;
+
+                if (!string.IsNullOrEmpty(sA) &&
+                    !string.IsNullOrEmpty(sOp) &&
+                    !string.IsNullOrEmpty(sB))
                 {
-                    DrawSek(new Point(30, fontsize + 30));
+                    DrawSek(new Point(offsetX, seqY));
+
+                    string seqText = sA
+                                   + Environment.NewLine
+                                   + sOp
+                                   + Environment.NewLine
+                                   + sB;
+                    int seqWidth = GetTextLength(seqText);
+
+                    offsetX += seqWidth + 40;
                 }
-                if (eA != "")
+
+                if (!string.IsNullOrEmpty(pA) &&
+                    !string.IsNullOrEmpty(pB) &&
+                    !string.IsNullOrEmpty(pC))
                 {
-                    DrawElim(new Point(30, fontsize * 3 + 30));
+                    DrawParallel(new Point(offsetX, elimY));
                 }
             }
         }
@@ -79,93 +89,104 @@ namespace Uniterm
         public static void ClearAll()
         {
             sA = sB = sOp = "";
-            eA = eB = eC = "";
+            pA = pB = pC = "";
             oper = ' ';
         }
 
         public void DrawSek(Point pt)
         {
-            if (sA == "" || sOp == "") return;
-            int len = GetTextLength(sA + sOp + sB);
+            if (string.IsNullOrEmpty(sA) || string.IsNullOrEmpty(sOp) || string.IsNullOrEmpty(sB))
+                return;
 
-            DrawText(pt, sA + sOp + sB);
-            DrawBezier(new Point(pt.X, pt.Y - 1), len);
+            string text = sA
+                        + Environment.NewLine
+                        + sOp
+                        + Environment.NewLine
+                        + sB;
+
+            int textHeight = GetTextHeight(text);
+
+            DrawText(new Point(pt.X + 20, pt.Y), text);
+
+            DrawBezier(pt, textHeight);
         }
 
-      public void DrawElim(Point pt)
-        
-      {
-            if (eA == "" || eB == "" || eC == "") return;
+        public void DrawParallel(Point pt)
+        {
+            if (string.IsNullOrEmpty(pA) ||
+                string.IsNullOrEmpty(pB) ||
+                string.IsNullOrEmpty(pC))
+                return;
 
-            Point p2 = new Point(pt.X + 2, pt.Y);
-            string text = eA + Environment.NewLine.ToString() + ";" + Environment.NewLine.ToString() +
-                eB + Environment.NewLine.ToString() +
-                ";" + Environment.NewLine.ToString() + eC;
+            string text = pA + " ; " + pB + " ; " + pC;
+            int width = GetTextLength(text);
 
-            double l = GetTextHeight(text) + 2;
+            double textOffsetY = fontsize + 4;
+            DrawText(new Point(pt.X, pt.Y + textOffsetY), text);
 
-            DrawText(p2, text);
-            DrawVert(pt, (int)l);
+            DrawHoriz(pt, width);
         }
+
 
         public void DrawSwitched(Point pt)
         {
-            if (sA == "" || sOp == "" || eA == "" || eB == "" || eC == "") return;
+            if (string.IsNullOrEmpty(sA) ||
+                string.IsNullOrEmpty(sOp) ||
+                string.IsNullOrEmpty(sB) ||
+                string.IsNullOrEmpty(pA) ||
+                string.IsNullOrEmpty(pB) ||
+                string.IsNullOrEmpty(pC))
+            {
+                return;
+            }
 
-
-            string textElim = eA + Environment.NewLine.ToString() + ";" + Environment.NewLine.ToString() +
-                eB + Environment.NewLine.ToString() +
-                ";" + Environment.NewLine.ToString() + eC;
-
-            int length = GetTextLength(textElim);
-
-            sOp = " " + sOp + " ";
+            double marginX = 20;
+            double textOffY = fontsize + 4;
+            string elimText = pA + " ; " + pB + " ; " + pC;
+            int elimWidth = GetTextLength(elimText);
 
             if (oper == 'A')
             {
-                DrawText(new Point(pt.X + length + (fontsize / 3), pt.Y + 3), sOp + sB);
-                DrawElim(new Point(pt.X + (fontsize / 3), pt.Y + 3));
-                length += GetTextLength(sOp + sB) + (int)(fontsize / 3);
-            }
-            if (oper == 'B')
-            {
-                DrawText(pt, sA + sOp);
-               DrawElim(new Point(pt.X + GetTextLength(sA + sOp) + (fontsize / 3), pt.Y));
-                length += GetTextLength(sA + sOp) + (int)(fontsize / 3);
-            }
-            sOp = Convert.ToString(sOp[1]);
-            DrawBezier(pt, length + 5); //+5 poniewaz Kreska tyle zajmuje
+                Point bracketPt = new Point(pt.X + marginX, pt.Y);
+                DrawHoriz(bracketPt, elimWidth);
+                DrawText(new Point(bracketPt.X, bracketPt.Y + textOffY), elimText);
 
+                string rest = sOp + Environment.NewLine + sB;
+                double yRest = bracketPt.Y + textOffY + GetTextHeight(elimText);
+                DrawText(new Point(bracketPt.X, yRest), rest);
+
+                double bottomY = yRest + GetTextHeight(rest);
+                int totalH = (int)(bottomY - pt.Y);
+                DrawBezier(pt, totalH + 5);
+            }
+            else
+            {
+                string first = sA + Environment.NewLine + sOp;
+                DrawText(new Point(pt.X + marginX, pt.Y), first);
+                double firstH = GetTextHeight(first);
+
+                Point bracketPt = new Point(pt.X + marginX, pt.Y + firstH + 10);
+                DrawHoriz(bracketPt, elimWidth);
+                DrawText(new Point(bracketPt.X, bracketPt.Y + textOffY), elimText);
+
+                double bottomY = bracketPt.Y + textOffY + GetTextHeight(elimText);
+                int totalH = (int)(bottomY - pt.Y);
+                DrawBezier(pt, totalH + 5);
+            }
         }
+
         #endregion
 
         #region Private Methods
 
-        private void DrawVert(Point pt, int length)
-        {
-            dc.DrawLine(pen, pt, new Point { X = pt.X, Y = pt.Y + length });
-            double b = (Math.Sqrt(length) / 2) + 2;
-
-            dc.DrawLine(pen, new Point(pt.X - (b / 2), pt.Y), new Point(pt.X + (b / 2), pt.Y));
-            dc.DrawLine(pen, new Point(pt.X - (b / 2), pt.Y + length), new Point(pt.X + (b / 2), pt.Y + length));
-
-        }
-
         private void DrawBezier(Point p0, int length)
         {
             Point start = p0;
-            Point p1 = new Point(), p2 = new Point(), p3 = new Point();
+            double b = Math.Sqrt(length) / 2 + 2;
 
-            p3.Y = p0.Y;
-            p3.X = p0.X + length;
-
-            int b = (int)Math.Sqrt(length) + 2;
-
-            p1.X = p0.X + (int)(length * 0.25);
-            p1.Y = p0.Y - b;
-
-            p2.X = p0.X + (int)(length * 0.75);
-            p2.Y = p0.Y - b;
+            Point p1 = new Point(p0.X - b, p0.Y + length * 0.25);
+            Point p2 = new Point(p0.X - b, p0.Y + length * 0.75);
+            Point p3 = new Point(p0.X, p0.Y + length);
 
             foreach (Point pt in GetBezierPoints(p0, p1, p2, p3))
             {
@@ -173,6 +194,24 @@ namespace Uniterm
                 start = pt;
             }
         }
+
+        private void DrawHoriz(Point pt, int length)
+        {
+            dc.DrawLine(pen,
+                pt,
+                new Point(pt.X + length, pt.Y));
+
+            double b = Math.Sqrt(length) / 2 + 2;
+
+            dc.DrawLine(pen,
+                new Point(pt.X, pt.Y),
+                new Point(pt.X, pt.Y + b));
+
+            dc.DrawLine(pen,
+                new Point(pt.X + length, pt.Y),
+                new Point(pt.X + length, pt.Y + b));
+        }
+
 
         private void DrawText(Point point, string text)
         {

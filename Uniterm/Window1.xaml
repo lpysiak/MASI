@@ -4,7 +4,7 @@
         xmlns:local="clr-namespace:Uniterm"
     Title="Uniterm" Height="586" Width="967.94" WindowStyle="SingleBorderWindow" 
         Visibility="Visible" ResizeMode="CanMinimize" WindowStartupLocation="CenterScreen" Loaded="Window_Loaded">
-    
+
     <Grid ClipToBounds="True">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="647*" />
@@ -28,13 +28,13 @@
         <Button Height="23" Width="106" Click="Button_Click"  HorizontalAlignment="Right" Margin="0,22,10,0" VerticalAlignment="Top" Name="btnAddSek" Grid.Column="1">Sekwencjonowanie</Button>
         <Label Height="28" HorizontalAlignment="Right" Margin="0,0,71,72" Name="label1" VerticalAlignment="Bottom" Width="59" Grid.Column="1">Wielkość</Label>
         <Label HorizontalAlignment="Right" Margin="0,106,63,131" Name="label2" Width="67" Grid.Column="1">Czcionka</Label>
-        <Button Height="23" HorizontalAlignment="Right" Margin="0,65,10,0" Name="btnAddEl" VerticalAlignment="Top" Width="106" Click="btnAddEl_Click" Grid.Column="1">Eliminacja</Button>
+        <Button Height="23" HorizontalAlignment="Right" Margin="0,65,10,0" Name="btnAddEl" VerticalAlignment="Top" Width="106" Click="btnAddEl_Click" Grid.Column="1">Zrównoleglenie</Button>
         <Button Height="23" HorizontalAlignment="Right" Margin="0,0,10,29" Name="btnRedraw" VerticalAlignment="Bottom" Width="89" Click="btnRedraw_Click" Grid.Column="1">Przerysuj</Button>
         <ListBox HorizontalAlignment="Left" Margin="0,30,0,35" Name="lbUniterms" Width="127" Grid.RowSpan="2" BorderThickness="3" SelectionChanged="ehlbUNitermsSelectionChanged" />
         <TextBox Grid.Row="1" HorizontalAlignment="Left" Margin="45,0,0,11" Name="tbName" Width="120" Height="19.385" VerticalAlignment="Bottom" />
         <TextBox Grid.Row="1" Margin="218,0,146,11" Name="tbDescription" KeyUp="tbDescKeyUP" Height="19.385" VerticalAlignment="Bottom" Grid.ColumnSpan="2" />
-        <Label Grid.Row="1" HorizontalAlignment="Left" Margin="0,0,0,6" Name="label3" Width="47" Height="24.385" VerticalAlignment="Bottom">Nazwa</Label>
-        <Label Grid.Row="1" HorizontalAlignment="Left" Margin="171,0,0,6" Name="label4" Width="38" Height="24.385" VerticalAlignment="Bottom">Opis</Label>
+        <Label Grid.Row="1" HorizontalAlignment="Left" Margin="0,0,0,8" Name="label3" Width="47" Height="24" VerticalAlignment="Bottom">Nazwa</Label>
+        <Label Grid.Row="1" HorizontalAlignment="Left" Margin="178,0,0,3" Name="label4" Width="38" Height="30" VerticalAlignment="Bottom">Opis</Label>
         <Border BorderThickness="1" BorderBrush="CadetBlue" Margin="128,30,132,35" Grid.RowSpan="2" Grid.ColumnSpan="2">
             <DockPanel Name="pic"  Grid.RowSpan="2" ClipToBounds="True">
                 <ScrollBar ValueChanged="HorScroll_ValueChanged" Name="HorScroll" Orientation="Horizontal" DockPanel.Dock="Bottom"  Maximum="{Binding ElementName=cDrawing, Path=ActualWidth}" SmallChange="1" Width="640" HorizontalAlignment="Left" />

@@ -133,9 +133,9 @@ namespace Uniterm
                 MessageBox.Show("Zbyt długi tekst!\n Maksymalna długość tekstu to 250 znaków!", "Błąd", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
-            MyDrawing.eA = ae.tbA.Text;
-            MyDrawing.eB = ae.tbB.Text;
-            MyDrawing.eC = ae.tbC.Text;
+            MyDrawing.pA = ae.tbA.Text;
+            MyDrawing.pB = ae.tbB.Text;
+            MyDrawing.pC = ae.tbC.Text;
 
             btnRedraw_Click(sender, e);
             modified = true;
@@ -189,8 +189,8 @@ namespace Uniterm
                 if (nowy)
                 {
                     sql = "insert into uniterms values('" + tbName.Text + "','" + tbDescription.Text + "','" +
-                        MyDrawing.sA + "','" + MyDrawing.sB + "','" + MyDrawing.sOp + "','" + MyDrawing.eA + "','" +
-                        MyDrawing.eB + "','" + MyDrawing.eC + "'," + (Int32) MyDrawing.fontsize  + ",'" + MyDrawing.fontFamily + "','" + MyDrawing.oper + "');";
+                        MyDrawing.sA + "','" + MyDrawing.sB + "','" + MyDrawing.sOp + "','" + MyDrawing.pA + "','" +
+                        MyDrawing.pB + "','" + MyDrawing.pC + "'," + (Int32) MyDrawing.fontsize  + ",'" + MyDrawing.fontFamily + "','" + MyDrawing.oper + "');";
                 }
                 else
                 {
@@ -200,9 +200,9 @@ namespace Uniterm
       "',sA = '" + MyDrawing.sA +
       "',sB ='" + MyDrawing.sB +
       "',sOp ='" + MyDrawing.sOp +
-      "',eA = '" + MyDrawing.eA +
-      "',eB = '" + MyDrawing.eB +
-      "',eC = '" + MyDrawing.eC +
+      "',pA = '" + MyDrawing.pA +
+      "',pB = '" + MyDrawing.pB +
+      "',pC = '" + MyDrawing.pC +
       "',fontSize =" + (Int32)MyDrawing.fontsize +
       ",fontFamily = '" + MyDrawing.fontFamily +
       "',switched ='" + MyDrawing.oper +
@@ -265,9 +265,9 @@ namespace Uniterm
                     dr = db.CreateDataRow(String.Format("select * from uniterms where name = '{0}';", lbUniterms.SelectedItem.ToString()));
 
 
-                    MyDrawing.eA = (string)dr["eA"];
-                    MyDrawing.eB = (string)dr["eB"];
-                    MyDrawing.eC = (string)dr["eC"];
+                    MyDrawing.pA = (string)dr["pA"];
+                    MyDrawing.pB = (string)dr["pB"];
+                    MyDrawing.pC = (string)dr["pC"];
 
                     MyDrawing.sA = (string)dr["sA"];
                     MyDrawing.sB = (string)dr["sB"];
