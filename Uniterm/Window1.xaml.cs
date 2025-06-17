@@ -128,14 +128,13 @@ namespace Uniterm
             AddElem ae = new AddElem();
 
             ae.ShowDialog();
-            if (ae.tbA.Text.Length > 250 || ae.tbB.Text.Length > 250 || ae.tbC.Text.Length > 250)
+            if (ae.tbA.Text.Length > 250 || ae.tbB.Text.Length > 250)
             {
                 MessageBox.Show("Zbyt długi tekst!\n Maksymalna długość tekstu to 250 znaków!", "Błąd", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
             MyDrawing.pA = ae.tbA.Text;
             MyDrawing.pB = ae.tbB.Text;
-            MyDrawing.pC = ae.tbC.Text;
 
             btnRedraw_Click(sender, e);
             modified = true;
@@ -190,7 +189,7 @@ namespace Uniterm
                 {
                     sql = "insert into uniterms values('" + tbName.Text + "','" + tbDescription.Text + "','" +
                         MyDrawing.sA + "','" + MyDrawing.sB + "','" + MyDrawing.sOp + "','" + MyDrawing.pA + "','" +
-                        MyDrawing.pB + "','" + MyDrawing.pC + "'," + (Int32) MyDrawing.fontsize  + ",'" + MyDrawing.fontFamily + "','" + MyDrawing.oper + "');";
+                        MyDrawing.pB + "'," + (Int32) MyDrawing.fontsize  + ",'" + MyDrawing.fontFamily + "','" + MyDrawing.oper + "');";
                 }
                 else
                 {
@@ -202,7 +201,6 @@ namespace Uniterm
       "',sOp ='" + MyDrawing.sOp +
       "',pA = '" + MyDrawing.pA +
       "',pB = '" + MyDrawing.pB +
-      "',pC = '" + MyDrawing.pC +
       "',fontSize =" + (Int32)MyDrawing.fontsize +
       ",fontFamily = '" + MyDrawing.fontFamily +
       "',switched ='" + MyDrawing.oper +
@@ -267,7 +265,6 @@ namespace Uniterm
 
                     MyDrawing.pA = (string)dr["pA"];
                     MyDrawing.pB = (string)dr["pB"];
-                    MyDrawing.pC = (string)dr["pC"];
 
                     MyDrawing.sA = (string)dr["sA"];
                     MyDrawing.sB = (string)dr["sB"];

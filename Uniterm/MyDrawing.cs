@@ -27,7 +27,7 @@ namespace Uniterm
 
         public static string sA, sB, sOp;
 
-        public static string pA, pB, pC;
+        public static string pA, pB;
 
         public static char oper = ' ';
 
@@ -78,8 +78,7 @@ namespace Uniterm
                 }
 
                 if (!string.IsNullOrEmpty(pA) &&
-                    !string.IsNullOrEmpty(pB) &&
-                    !string.IsNullOrEmpty(pC))
+                    !string.IsNullOrEmpty(pB))
                 {
                     DrawParallel(new Point(offsetX, elimY));
                 }
@@ -89,7 +88,7 @@ namespace Uniterm
         public static void ClearAll()
         {
             sA = sB = sOp = "";
-            pA = pB = pC = "";
+            pA = pB = "";
             oper = ' ';
         }
 
@@ -114,11 +113,10 @@ namespace Uniterm
         public void DrawParallel(Point pt)
         {
             if (string.IsNullOrEmpty(pA) ||
-                string.IsNullOrEmpty(pB) ||
-                string.IsNullOrEmpty(pC))
+                string.IsNullOrEmpty(pB))
                 return;
 
-            string text = pA + " ; " + pB + " ; " + pC;
+            string text = pA + " ; " + pB;
             int width = GetTextLength(text);
 
             double textOffsetY = fontsize + 4;
@@ -134,15 +132,14 @@ namespace Uniterm
                 string.IsNullOrEmpty(sOp) ||
                 string.IsNullOrEmpty(sB) ||
                 string.IsNullOrEmpty(pA) ||
-                string.IsNullOrEmpty(pB) ||
-                string.IsNullOrEmpty(pC))
+                string.IsNullOrEmpty(pB))
             {
                 return;
             }
 
             double marginX = 20;
             double textOffY = fontsize + 4;
-            string elimText = pA + " ; " + pB + " ; " + pC;
+            string elimText = pA + " ; " + pB;
             int elimWidth = GetTextLength(elimText);
 
             if (oper == 'A')
